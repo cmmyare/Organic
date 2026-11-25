@@ -1,9 +1,8 @@
-// Redis connections. Sessions and queues use separate connections
-// (queue Redis must be configured with maxmemory-policy noeviction).
+// Redis connection (admin sessions from Day 02).
 import Redis from 'ioredis';
 import { mask_connection_uri } from './logger.js';
 
-export function create_redis({ url, name, logger, for_queue = false }) {
+export function create_redis({ url, name, logger }) {
   if (!url) {
     logger.warn({ connection: name }, 'redis url not configured; skipping (allowed in development only)');
     return null;
@@ -11,8 +10,7 @@ export function create_redis({ url, name, logger, for_queue = false }) {
   const client = new Redis(url, {
     connectionName: `origin:${name}`,
     lazyConnect: true,
-    // BullMQ requires maxRetriesPerRequest null on queue connections.
-    maxRetriesPerRequest: for_queue ? null : 3,
+    maxRetriesPerRequest: 3,
   });
   client.on('error', (error) => logger.error({ connection: name, err: error.message }, 'redis error'));
   client.on('ready', () => logger.info({ connection: name, url: mask_connection_uri(url) }, 'redis ready'));

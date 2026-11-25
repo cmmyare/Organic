@@ -7,7 +7,6 @@ import helmet from 'helmet';
 import { pinoHttp } from 'pino-http';
 import { request_id_middleware } from '../shared/utils/request_id.js';
 import { create_health_router } from '../shared/utils/health_router.js';
-import { create_v1_router } from './routes/v1/index.js';
 
 export function create_api_app({ logger, checks = {}, trust_proxy = false }) {
   const app = express();
@@ -20,7 +19,7 @@ export function create_api_app({ logger, checks = {}, trust_proxy = false }) {
   app.use(express.json({ limit: '100kb' }));
 
   app.use(create_health_router({ service: 'origin-api', checks }));
-  app.use('/api/v1', create_v1_router());
+  // /api/v1/customer and /api/v1/provider routes are added from Day 17.
 
   app.use((req, res) => {
     res.status(404).json({

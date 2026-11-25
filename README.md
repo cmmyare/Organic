@@ -3,7 +3,8 @@
 *Quality begins at the source.*
 
 ORIGIN sources fruits and vegetables from farmers, stores them, and delivers to households, hotels and restaurants in
-Mogadishu. This repository holds the admin panel, the customer/driver API, and the background worker.
+Mogadishu. This repository holds the admin panel and the customer/driver API. A background worker is added with
+recurring orders (Day 11).
 
 ## Requirements
 
@@ -31,7 +32,6 @@ Each process starts independently:
 ```powershell
 npm run dev:admin    # http://127.0.0.1:3001  (dashboard at /dashboard)
 npm run dev:api      # http://127.0.0.1:3002
-npm run dev:worker
 ```
 
 Health checks on both servers: `/health/live` (process up) and `/health/ready` (database/Redis reachable, 503 if not).

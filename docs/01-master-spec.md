@@ -81,6 +81,9 @@ origin/
   docs/ assets/ openapi/ postman/
 ```
 
+> Founder decision (2026-11-25): this layout is the target shape. Folders and scripts are created progressively,
+> only when a daily task needs them (see `CLAUDE.md`).
+
 Scripts: `dev:admin`, `dev:api`, `dev:worker`, `seed`, `test`, `lint`, `start:admin`, `start:api`, `start:worker`.
 Never import another server's entrypoint. Validate config on boot. Env keys: `ADMIN_PORT`, `API_PORT`, `MONGO_URI`,
 `SESSION_REDIS_URL`, `QUEUE_REDIS_URL`, `SESSION_SECRET`, JWT keys, S3, FCM, OTP/payment adapter settings,

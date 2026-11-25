@@ -45,13 +45,12 @@ test('unknown time zone is rejected', () => {
   assert.throws(() => parse_env({ ...valid, APP_TIMEZONE: 'Mars/Olympus' }), /APP_TIMEZONE/);
 });
 
-test('production requires both redis urls', () => {
-  assert.throws(() => parse_env({ ...valid, NODE_ENV: 'production' }), /SESSION_REDIS_URL[\s\S]*QUEUE_REDIS_URL/);
+test('production requires the session redis url', () => {
+  assert.throws(() => parse_env({ ...valid, NODE_ENV: 'production' }), /SESSION_REDIS_URL/);
   const config = parse_env({
     ...valid,
     NODE_ENV: 'production',
     SESSION_REDIS_URL: 'rediss://redis.example.invalid:6380',
-    QUEUE_REDIS_URL: 'rediss://queue.example.invalid:6380',
   });
   assert.equal(config.NODE_ENV, 'production');
 });

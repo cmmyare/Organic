@@ -19,20 +19,17 @@ const env_schema = z
       .string()
       .regex(/^mongodb(\+srv)?:\/\//, 'must start with mongodb:// or mongodb+srv://'),
 
-    // Redis is required outside development/test. Sessions start on Day 02,
-    // queues on Day 11, so local development can boot without them today.
+    // Required outside development/test. Admin sessions start on Day 02,
+    // so local development can boot without it today.
     SESSION_REDIS_URL: z.string().regex(/^rediss?:\/\//, 'must start with redis:// or rediss://').optional(),
-    QUEUE_REDIS_URL: z.string().regex(/^rediss?:\/\//, 'must start with redis:// or rediss://').optional(),
 
     SESSION_SECRET: z.string().min(32, 'must be at least 32 characters'),
     APP_TIMEZONE: z.string().default('Africa/Mogadishu'),
   })
   .superRefine((env, ctx) => {
     const strict = env.NODE_ENV === 'staging' || env.NODE_ENV === 'production';
-    if (strict) {
-      for (const key of ['SESSION_REDIS_URL', 'QUEUE_REDIS_URL']) {
-        if (!env[key]) ctx.addIssue({ code: 'custom', path: [key], message: `required when NODE_ENV=${env.NODE_ENV}` });
-      }
+    if (strict && !env.SESSION_REDIS_URL) {
+      ctx.addIssue({ code: 'custom', path: ['SESSION_REDIS_URL'], message: `required when NODE_ENV=${env.NODE_ENV}` });
     }
     if (env.ADMIN_PORT === env.API_PORT) {
       ctx.addIssue({ code: 'custom', path: ['API_PORT'], message: 'must differ from ADMIN_PORT' });

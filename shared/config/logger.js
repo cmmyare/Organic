@@ -8,8 +8,7 @@ const redact_paths = [
   '*.password_hash',
   'otp',
   '*.otp',
-  'code',
-  '*.code',
+  'req.body.code', // OTP / confirmation codes; error `code` fields stay visible
   'token',
   '*.token',
   'access_token',

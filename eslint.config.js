@@ -12,10 +12,6 @@ export default [
     },
   },
   {
-    files: ['**/*.cjs'],
-    languageOptions: { sourceType: 'commonjs', globals: { ...globals.node } },
-  },
-  {
     files: ['admin/public/js/**/*.js'],
     languageOptions: { sourceType: 'script', globals: { ...globals.browser, $: 'readonly' } },
   },
