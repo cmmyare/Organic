@@ -1,0 +1,18 @@
+<%#
+  Static placeholder. On Day 03 this becomes the database-driven menu tree
+  built server-side from the admin's effective grants (res.locals.menu_tree).
+%>
+<aside class="offcanvas-lg offcanvas-start origin-sidebar" tabindex="-1" id="origin_sidebar" aria-label="Main menu">
+  <div class="offcanvas-header d-lg-none">
+    <span class="fw-bold">Menu</span>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#origin_sidebar" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <ul class="nav flex-column w-100 py-2">
+      <li class="nav-item">
+        <a class="nav-link <%= current_path === '/dashboard' ? 'active' : '' %>" href="/dashboard"
+           <%- current_path === '/dashboard' ? 'aria-current="page"' : '' %>>Dashboard</a>
+      </li>
+    </ul>
+  </div>
+</aside>

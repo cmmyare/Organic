@@ -1,0 +1,13 @@
+<%- include('../partials/head') %>
+<%- include('../partials/topbar') %>
+<main class="container py-5" style="max-width: 560px;">
+  <div class="card origin-card">
+    <div class="card-body">
+      <h1 class="h4"><%= status %> · <%= title %></h1>
+      <p class="mb-3"><%= message %></p>
+      <p class="small text-secondary mb-3">Reference: <code><%= request_id %></code></p>
+      <a class="btn btn-origin" href="/dashboard">Go to dashboard</a>
+    </div>
+  </div>
+</main>
+<%- include('../partials/foot') %>

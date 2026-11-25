@@ -1,0 +1,74 @@
+/* ORIGIN admin theme — brand tokens from the master spec §02. */
+:root {
+  --origin-forest: #14532D;
+  --origin-leaf: #65A30D;
+  --origin-harvest: #F59E0B;
+  --origin-cream: #F8F7F2;
+  --origin-charcoal: #1F2937;
+  --origin-white: #FFFFFF;
+  --origin-error: #B91C1C;
+  --origin-info: #1D4ED8;
+  --origin-radius: 8px;
+  --origin-space: 8px;
+
+  --bs-body-font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-body-font-size: 14px;
+  --bs-body-color: var(--origin-charcoal);
+  --bs-body-bg: var(--origin-cream);
+  --bs-border-radius: var(--origin-radius);
+  --bs-link-color-rgb: 20, 83, 45;
+  --bs-danger: var(--origin-error);
+}
+
+.origin-body { min-height: 100vh; }
+
+.origin-topbar {
+  background: var(--origin-forest);
+  color: var(--origin-white);
+  min-height: 56px;
+}
+.origin-topbar .navbar-brand { color: var(--origin-white); }
+
+.origin-shell { display: flex; min-height: calc(100vh - 56px); }
+
+.origin-sidebar {
+  background: var(--origin-white);
+  border-right: 1px solid rgba(31, 41, 55, 0.1);
+}
+@media (min-width: 992px) {
+  .origin-sidebar { width: 240px; flex-shrink: 0; }
+}
+.origin-sidebar .nav-link {
+  color: var(--origin-charcoal);
+  padding: calc(var(--origin-space) * 1.25) calc(var(--origin-space) * 2);
+  border-left: 3px solid transparent;
+}
+.origin-sidebar .nav-link:hover { background: var(--origin-cream); }
+.origin-sidebar .nav-link.active {
+  color: var(--origin-forest);
+  font-weight: 600;
+  border-left-color: var(--origin-forest);
+  background: var(--origin-cream);
+}
+
+.origin-main { flex: 1; padding: calc(var(--origin-space) * 3); min-width: 0; }
+
+.origin-card {
+  background: var(--origin-white);
+  border: 1px solid rgba(31, 41, 55, 0.08);
+  border-radius: var(--origin-radius);
+}
+
+.btn-origin {
+  --bs-btn-color: var(--origin-white);
+  --bs-btn-bg: var(--origin-forest);
+  --bs-btn-border-color: var(--origin-forest);
+  --bs-btn-hover-color: var(--origin-white);
+  --bs-btn-hover-bg: #0f3f22;
+  --bs-btn-hover-border-color: #0f3f22;
+  --bs-btn-focus-shadow-rgb: 20, 83, 45;
+}
+
+/* Status uses text + icon character, never color alone. */
+.origin-status-ok { color: var(--origin-forest); }
+.origin-status-bad { color: var(--origin-error); }

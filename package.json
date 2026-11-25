@@ -1,0 +1,42 @@
+{
+  "name": "origin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ORIGIN — fresh produce sourcing, warehouse, orders and delivery platform (admin, API, worker).",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev:admin": "node --watch admin/index.js",
+    "dev:api": "node --watch app/index.js",
+    "dev:worker": "node --watch worker/index.js",
+    "start:admin": "node admin/index.js",
+    "start:api": "node app/index.js",
+    "start:worker": "node worker/index.js",
+    "seed": "node -e \"console.log('No seed scripts yet (Day 02 adds the first admin seed).')\"",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "test:unit": "node --test \"tests/unit/**/*.test.js\"",
+    "test:integration": "node --test \"tests/integration/**/*.test.js\"",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "bootstrap": "5.3.9",
+    "dotenv": "18.0.10",
+    "ejs": "7.0.2",
+    "express": "5.3.0",
+    "helmet": "8.3.0",
+    "ioredis": "6.1.0",
+    "jquery": "4.1.0",
+    "mongoose": "9.13.1",
+    "pino": "10.4.0",
+    "pino-http": "11.0.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.15.0",
+    "globals": "17.14.0",
+    "supertest": "7.3.2"
+  }
+}

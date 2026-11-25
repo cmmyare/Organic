@@ -1,0 +1,23 @@
+<%- include('../partials/head') %>
+<%- include('../partials/topbar') %>
+<div class="origin-shell">
+  <%- include('../partials/sidebar') %>
+  <main class="origin-main">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+      <div>
+        <h1 class="h4 mb-1">Dashboard</h1>
+        <p class="text-secondary mb-0"><%= brand.tagline %></p>
+      </div>
+    </div>
+
+    <div class="card origin-card">
+      <div class="card-body">
+        <h2 class="h6 mb-3">System status</h2>
+        <ul class="list-unstyled mb-0" id="health_list" aria-live="polite">
+          <li class="text-secondary">Checking…</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+<%- include('../partials/foot') %>
