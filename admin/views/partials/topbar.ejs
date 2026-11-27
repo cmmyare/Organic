@@ -4,7 +4,16 @@
     <span class="fw-bold"><%= brand.name %></span>
     <span class="small opacity-75 d-none d-md-inline">Admin</span>
   </a>
-  <button class="btn btn-sm btn-outline-light d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#origin_sidebar" aria-controls="origin_sidebar">
-    Menu
-  </button>
+  <div class="d-flex align-items-center gap-2">
+    <% if (admin) { %>
+      <span class="small d-none d-sm-inline"><%= admin.name %></span>
+      <form method="post" action="/logout" class="m-0">
+        <input type="hidden" name="_csrf" value="<%= csrf_token %>">
+        <button type="submit" class="btn btn-sm btn-outline-light">Sign out</button>
+      </form>
+      <button class="btn btn-sm btn-outline-light d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#origin_sidebar" aria-controls="origin_sidebar">
+        Menu
+      </button>
+    <% } %>
+  </div>
 </nav>

@@ -12,22 +12,27 @@
     "dev:api": "node --watch app/index.js",
     "start:admin": "node admin/index.js",
     "start:api": "node app/index.js",
+    "seed:admin": "node scripts/seed/seed_admin.js",
     "test": "node --test \"tests/**/*.test.js\"",
     "test:unit": "node --test \"tests/unit/**/*.test.js\"",
     "test:integration": "node --test \"tests/integration/**/*.test.js\"",
     "lint": "eslint ."
   },
   "dependencies": {
+    "bcryptjs": "3.0.3",
     "bootstrap": "5.3.9",
+    "connect-redis": "11.0.0",
     "dotenv": "18.0.10",
     "ejs": "7.0.2",
     "express": "5.3.0",
+    "express-rate-limit": "8.7.5",
+    "express-session": "1.19.0",
     "helmet": "8.3.0",
-    "ioredis": "6.1.0",
     "jquery": "4.1.0",
     "mongoose": "9.13.1",
     "pino": "10.4.0",
     "pino-http": "11.0.0",
+    "redis": "6.4.0",
     "zod": "4.6.7"
   },
   "devDependencies": {

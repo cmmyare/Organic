@@ -24,8 +24,11 @@ required. Develop progressively according to the approved daily work plan.**
 
 ## Stack and conventions
 
-- Node.js ≥ 22, Express 5, JavaScript ES modules (`"type": "module"`), MongoDB Atlas via Mongoose, Redis (ioredis),
-  EJS + Bootstrap 5 + jQuery AJAX for admin. Pinned versions (`npm i -E`) with `package-lock.json`.
+- Node.js ≥ 22, Express 5, JavaScript ES modules (`"type": "module"`), MongoDB Atlas via Mongoose, Redis (`redis`
+  node client; `connect-redis` requires it), EJS + Bootstrap 5 + jQuery AJAX for admin.
+- Admin code style (founder): one routes file `admin/routes/admin.js`, one controller file
+  `admin/controllers/admin_controller.js`; each page is a GET (render) and, if it changes data, a POST. Flat, readable
+  functions; no extra helpers or nested helper functions; lean, projected Mongo queries. Pinned versions (`npm i -E`) with `package-lock.json`.
 - New filenames, DB fields and JS functions use `snake_case`.
 - Money in integer cents; quantities in integer base units (grams or pieces). Never floats for money.
 - UTC timestamps; business schedules in `APP_TIMEZONE` (Africa/Mogadishu).
@@ -35,7 +38,13 @@ required. Develop progressively according to the approved daily work plan.**
 ## Current layout
 
 - `admin/` — admin server (:3001). `create_admin_app.js` builds the app (testable); `index.js` connects and listens.
-  Pages in `views/pages/` include `views/partials/{head,topbar,sidebar,foot}.ejs`.
+  `routes/admin.js` (all routes; `/login` public, everything after `require_admin` protected),
+  `controllers/admin_controller.js`, `middleware/auth.js` (`csrf_protect`, `require_admin`: session check, menu
+  access, sidebar tree). Pages in `views/pages/` include `views/partials/{head,topbar,sidebar,foot}.ejs`; forms post a
+  hidden `_csrf` field, jQuery AJAX sends `X-CSRF-Token`.
+- Admin types: 0 = general admin (all active menus); 1 = only menus whose IDs are in `url_array`. Sidebar is built
+  from the `menus` collection on every request; access is checked against the menu `url` (exact or sub-path).
+- `shared/models/` — `admin.js`, `menu.js`. `scripts/seed/seed_admin.js` — one-time first type 0 admin + indexes.
 - `app/` — customer + provider API (:3002). Same split: `create_api_app.js` / `index.js`.
 - `shared/config/` — env validation, logger, Mongo and Redis connections.
 - `shared/utils/` — health router, request ID, server start/shutdown. `shared/constants/brand.js` — brand tokens.
@@ -45,4 +54,5 @@ required. Develop progressively according to the approved daily work plan.**
 ## Commands
 
 - `npm run dev:admin` / `npm run dev:api`
-- `npm test` · `npm run lint`
+- `npm run seed:admin -- --email <email> --name "<name>"` (password from `ADMIN_SEED_PASSWORD`)
+- `npm test` · `npm run lint` (DB tests use `TEST_MONGO_URI` or the `organic_test` database, never `organic`)

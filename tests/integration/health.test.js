@@ -3,11 +3,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import request from 'supertest';
+import session from 'express-session';
 import { create_logger } from '../../shared/config/logger.js';
 import { create_admin_app } from '../../admin/create_admin_app.js';
 import { create_api_app } from '../../app/create_api_app.js';
 
 const logger = create_logger({ name: 'test', level: 'silent' });
+const admin_session = { session_store: new session.MemoryStore(), session_secret: 'x'.repeat(40) };
 const ok = async () => ({ ok: true });
 const down = async () => ({ ok: false, detail: 'not_connected' });
 const throws = async () => { throw new Error('boom secret=abc'); };
@@ -59,19 +61,13 @@ for (const [label, build, service] of [
   });
 }
 
-test('admin: dashboard renders Bootstrap layout with brand', async () => {
-  const res = await request(create_admin_app({ logger })).get('/dashboard');
+test('admin: login page renders Bootstrap layout with brand', async () => {
+  const res = await request(create_admin_app({ logger, ...admin_session })).get('/login');
   assert.equal(res.status, 200);
   assert.match(res.headers['content-type'], /text\/html/);
   assert.match(res.text, /\/vendor\/bootstrap\/css\/bootstrap\.min\.css/);
   assert.match(res.text, /\/vendor\/jquery\/jquery\.min\.js/);
   assert.match(res.text, /ORIGIN/);
-});
-
-test('admin: root redirects to dashboard', async () => {
-  const res = await request(create_admin_app({ logger })).get('/');
-  assert.equal(res.status, 302);
-  assert.equal(res.headers.location, '/dashboard');
 });
 
 test('admin: vendor and own static assets are served', async () => {
@@ -89,10 +85,12 @@ test('admin: vendor and own static assets are served', async () => {
   }
 });
 
-test('admin: unknown page renders 404 HTML', async () => {
-  const res = await request(create_admin_app({ logger })).get('/nope');
-  assert.equal(res.status, 404);
-  assert.match(res.text, /404/);
+test('admin: health and static files do not create a session', async () => {
+  const app = create_admin_app({ logger, ...admin_session });
+  for (const url of ['/health/live', '/public/css/origin.css']) {
+    const res = await request(app).get(url);
+    assert.equal(res.headers['set-cookie'], undefined, url);
+  }
 });
 
 test('api: unknown route returns JSON error envelope', async () => {

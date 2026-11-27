@@ -51,6 +51,25 @@
   background: var(--origin-cream);
 }
 
+.origin-sidebar .origin-nav-group {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  padding-top: calc(var(--origin-space) * 2);
+}
+.origin-sidebar .origin-nav-child { padding-left: calc(var(--origin-space) * 4); }
+
+.origin-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--origin-space) * 2);
+}
+.origin-login-card { width: 100%; max-width: 400px; }
+
 .origin-main { flex: 1; padding: calc(var(--origin-space) * 3); min-width: 0; }
 
 .origin-card {

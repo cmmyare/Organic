@@ -1,4 +1,10 @@
 /* ORIGIN admin client script (jQuery). */
+// Every AJAX request sends the CSRF token; an expired session sends the user to the login page.
+$.ajaxSetup({ headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') } });
+$(document).ajaxError(function (event, xhr) {
+  if (xhr.status === 401) window.location.href = '/login';
+});
+
 $(function () {
   var $health_list = $('#health_list');
   if (!$health_list.length) return;

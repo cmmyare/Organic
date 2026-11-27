@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="<%= typeof csrf_token === 'undefined' ? '' : csrf_token %>">
   <title><%= title %> · <%= brand.name %> Admin</title>
   <link rel="icon" href="/public/images/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">

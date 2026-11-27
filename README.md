@@ -10,7 +10,7 @@ recurring orders (Day 11).
 
 - Node.js 22 or newer
 - A MongoDB Atlas database (dev: `organic`)
-- Redis (required from Day 02 for admin sessions; optional today)
+- Redis (admin sessions; the admin server will not start without `SESSION_REDIS_URL`)
 
 ## Setup
 
@@ -25,12 +25,23 @@ Generate a session secret:
 node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 ```
 
+## First admin (one time)
+
+```powershell
+$env:ADMIN_SEED_PASSWORD = '<strong password, 12+ characters>'
+npm run seed:admin -- --email you@example.com --name "Your Name"
+Remove-Item Env:ADMIN_SEED_PASSWORD
+```
+
+This creates the first general admin (type 0) and the `admins`/`menus` indexes. It refuses to run again once a
+type 0 admin exists.
+
 ## Run
 
 Each process starts independently:
 
 ```powershell
-npm run dev:admin    # http://127.0.0.1:3001  (dashboard at /dashboard)
+npm run dev:admin    # http://127.0.0.1:3001  (sign in at /login)
 npm run dev:api      # http://127.0.0.1:3002
 ```
 

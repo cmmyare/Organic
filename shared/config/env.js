@@ -19,8 +19,7 @@ const env_schema = z
       .string()
       .regex(/^mongodb(\+srv)?:\/\//, 'must start with mongodb:// or mongodb+srv://'),
 
-    // Required outside development/test. Admin sessions start on Day 02,
-    // so local development can boot without it today.
+    // Admin sessions. The admin server refuses to start without it; the API does not use it.
     SESSION_REDIS_URL: z.string().regex(/^rediss?:\/\//, 'must start with redis:// or rediss://').optional(),
 
     SESSION_SECRET: z.string().min(32, 'must be at least 32 characters'),

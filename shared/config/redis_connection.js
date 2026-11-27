@@ -1,16 +1,13 @@
-// Redis connection (admin sessions from Day 02).
-import Redis from 'ioredis';
+// Redis connection for admin sessions (node-redis client, as required by connect-redis).
+import { createClient } from 'redis';
 import { mask_connection_uri } from './logger.js';
 
 export function create_redis({ url, name, logger }) {
-  if (!url) {
-    logger.warn({ connection: name }, 'redis url not configured; skipping (allowed in development only)');
-    return null;
-  }
-  const client = new Redis(url, {
-    connectionName: `origin:${name}`,
-    lazyConnect: true,
-    maxRetriesPerRequest: 3,
+  if (!url) return null;
+  const client = createClient({
+    url,
+    name: `origin:${name}`,
+    disableOfflineQueue: true, // while Redis is down, commands fail at once (sessions fail closed)
   });
   client.on('error', (error) => logger.error({ connection: name, err: error.message }, 'redis error'));
   client.on('ready', () => logger.info({ connection: name, url: mask_connection_uri(url) }, 'redis ready'));
@@ -34,5 +31,5 @@ export function make_redis_check(client) {
 }
 
 export async function close_redis(client) {
-  if (client) await client.quit().catch(() => client.disconnect());
+  if (client?.isOpen) await client.close();
 }

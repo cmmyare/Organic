@@ -1,7 +1,4 @@
-<%#
-  Static placeholder. On Day 03 this becomes the database-driven menu tree
-  built server-side from the admin's effective grants (res.locals.menu_tree).
-%>
+<%# Built server-side from the admins' active, granted menus (res.locals.menu_tree). %>
 <aside class="offcanvas-lg offcanvas-start origin-sidebar" tabindex="-1" id="origin_sidebar" aria-label="Main menu">
   <div class="offcanvas-header d-lg-none">
     <span class="fw-bold">Menu</span>
@@ -10,9 +7,26 @@
   <div class="offcanvas-body p-0">
     <ul class="nav flex-column w-100 py-2">
       <li class="nav-item">
-        <a class="nav-link <%= current_path === '/dashboard' ? 'active' : '' %>" href="/dashboard"
-           <%- current_path === '/dashboard' ? 'aria-current="page"' : '' %>>Dashboard</a>
+        <a class="nav-link <%= current_path === '/dashboard' ? 'active' : '' %>" href="/dashboard">Dashboard</a>
       </li>
+      <% menu_tree.forEach((parent) => { %>
+        <li class="nav-item">
+          <% if (parent.url) { %>
+            <a class="nav-link <%= current_path === parent.url ? 'active' : '' %>" href="<%= parent.url %>"><%= parent.title %></a>
+          <% } else { %>
+            <span class="nav-link origin-nav-group"><%= parent.title %></span>
+          <% } %>
+          <% if (parent.children.length) { %>
+            <ul class="nav flex-column">
+              <% parent.children.forEach((child) => { %>
+                <li class="nav-item">
+                  <a class="nav-link origin-nav-child <%= current_path === child.url ? 'active' : '' %>" href="<%= child.url %>"><%= child.title %></a>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </li>
+      <% }) %>
     </ul>
   </div>
 </aside>
